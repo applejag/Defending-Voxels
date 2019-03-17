@@ -7,6 +7,9 @@ public class PathAgent : MonoBehaviour
 {
     public float speed = 5;
     public float turnWait = 0.3f;
+    public Animator anim;
+    private static readonly int Moving = Animator.StringToHash("Moving");
+    private static readonly int MoveSpeed = Animator.StringToHash("MoveSpeed");
 
     private void Start()
     {
@@ -32,12 +35,13 @@ public class PathAgent : MonoBehaviour
         }
 
         Vector3 pos = path[0];
+        if (anim) anim.SetFloat(MoveSpeed, speed);
 
         for (var i = 0; i < path.Length - 1; i++)
         {
             Vector3 target = path[i + 1];
             transform.forward = target - pos;
-            
+            if (anim) anim.SetBool(Moving, true);
 
             while ((pos - target).sqrMagnitude > 0.01f)
             {
@@ -46,6 +50,7 @@ public class PathAgent : MonoBehaviour
                 yield return null;
             }
 
+            if (anim) anim.SetBool(Moving, false);
             transform.position = pos = target;
             yield return new WaitForSeconds(turnWait);
         }

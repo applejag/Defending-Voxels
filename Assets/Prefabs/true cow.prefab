@@ -44,8 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28c3ec7b4c3067441965a46fb7b626bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3
-  turnWait: 0.3
+  speed: 1.4
+  turnWait: 0.24
+  anim: {fileID: 2865423449857979094}
 --- !u!1 &5710169291642243339
 GameObject:
   m_ObjectHideFlags: 0
@@ -55,8 +56,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7013056265487035223}
+  - component: {fileID: 2865423449857979094}
   m_Layer: 0
-  m_Name: mode
+  m_Name: model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -78,6 +80,25 @@ Transform:
   m_Father: {fileID: 4305759728420939205}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &2865423449857979094
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5710169291642243339}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 5ac01747a56d32747b71f19811da4edd, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1001 &3089648905514949934
 PrefabInstance:
   m_ObjectHideFlags: 0
