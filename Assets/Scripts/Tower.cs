@@ -6,6 +6,7 @@ using UnityEngine;
 public class Tower : MonoBehaviour
 {
     public float range = 10;
+    public int damage = 1;
 
     public float aimWait = 0.5f;
     public float reloadWait = 3f;
@@ -14,6 +15,7 @@ public class Tower : MonoBehaviour
     public Vector3 aimOffset;
     public float aimSpeed = 10;
     public float aimThreshold = 5;
+    public GameObject bulletPrefab;
 
     private float reloadTimeLeft = 0;
 
@@ -60,7 +62,7 @@ public class Tower : MonoBehaviour
     private void Update()
     {
         if (reloadTimeLeft > 0)
-            reloadWait -= Time.deltaTime;
+            reloadTimeLeft -= Time.deltaTime;
 
         if (Enemy.Enemies.Count == 0)
         {
@@ -74,6 +76,7 @@ public class Tower : MonoBehaviour
         // Enemy out of range. Get a new one
         if (lockedEnemy && !IsEnemyInRange(lockedEnemy, in towerPos2))
         {
+            print("where'd it go");
             lockedEnemy = null;
         }
 
@@ -91,17 +94,27 @@ public class Tower : MonoBehaviour
         if (lockedEnemy)
         {
             // Aiming
-            Vector3 delta = lockedEnemy.transform.position - aimPivot.TransformPoint(aimOffset);
+            Vector3 enemyPosition = lockedEnemy.transform.position;
+            Vector3 aimPosition = aimPivot.TransformPoint(aimOffset);
+            Vector3 delta = enemyPosition - aimPosition;
             Quaternion rotation = Quaternion.LookRotation(delta);
             aimPivot.rotation = Quaternion.RotateTowards(aimPivot.rotation, rotation, aimSpeed * Time.deltaTime);
 
             // Pew'ing
             float angle = Quaternion.Angle(rotation, aimPivot.rotation);
 
+            print($"soon pew..., {reloadTimeLeft} <= 0 && {angle} < {aimThreshold}");
             if (reloadTimeLeft <= 0 && angle < aimThreshold)
             {
-                reloadTimeLeft = reloadWait;
                 print("PEW!");
+                reloadTimeLeft = reloadWait;
+                GameObject clone = Instantiate(bulletPrefab, aimPosition, rotation);
+
+                var script = clone.GetComponent<RailgunProjectile>();
+                script.positionOrigin = aimPosition;
+                script.positionTo = enemyPosition;
+
+                lockedEnemy.TakeDamage(damage);
             }
         }
 

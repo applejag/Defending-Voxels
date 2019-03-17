@@ -76,13 +76,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4999037b68ea6049a979b64d013c436, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 2.9
+  range: 3.5
+  damage: 1
   aimWait: 0.5
   reloadWait: 2.5
-  fireOffset: {x: 0, y: 1.612, z: 0}
   aimPivot: {fileID: 5233051134500659410}
-  aimSpeed: 200
+  aimOffset: {x: 0, y: 0, z: 0}
+  aimSpeed: 400
   aimThreshold: 5
+  bulletPrefab: {fileID: 1971407252473468198, guid: c2f5e26300fac1e40a71dd82d205250d,
+    type: 3}
 --- !u!1001 &2111711654251064651
 PrefabInstance:
   m_ObjectHideFlags: 0

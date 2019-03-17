@@ -30,4 +30,10 @@ public class Enemy : MonoBehaviour
     {
         _enemies.Remove(this);
     }
+
+    public void TakeDamage(int damage)
+    {
+        health -= damage;
+        print($"{name}: Ouch!");
+    }
 }
