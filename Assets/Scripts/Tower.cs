@@ -65,9 +65,18 @@ public class Tower : MonoBehaviour
         if (reloadTimeLeft > 0)
             reloadTimeLeft -= Time.deltaTime;
 
+        if (!lockedEnemy && reloadTimeLeft < 0)
+        {
+            aimPivot.rotation = Quaternion.RotateTowards(aimPivot.rotation, Quaternion.identity, aimSpeed * Time.deltaTime);
+        }
+
         if (Enemy.Enemies.Count == 0)
         {
-            print("no enemies???");
+            if (lockedEnemy)
+            {
+                LockOff();
+            }
+
             return;
         }
 
@@ -75,11 +84,11 @@ public class Tower : MonoBehaviour
         var towerPos2 = new Vector2(pos.x, pos.z);
 
         // Enemy out of range. Get a new one
-        if (lockedEnemy && !IsEnemyInRange(lockedEnemy, in towerPos2))
+        if (lockedEnemy && !IsEnemyInRange(lockedEnemy, in towerPos2) ||
+            lockedEnemy && !lockedEnemy.gameObject.activeSelf)
         {
             print("where'd it go");
-            lockedEnemy = null;
-            reloadTimeLeft = resetAimWait;
+            LockOff();
         }
 
         // Get an enemy
@@ -105,10 +114,8 @@ public class Tower : MonoBehaviour
             // Pew'ing
             float angle = Quaternion.Angle(rotation, aimPivot.rotation);
 
-            print($"soon pew..., {reloadTimeLeft} <= 0 && {angle} < {aimThreshold}");
             if (reloadTimeLeft <= 0 && angle < aimThreshold)
             {
-                print("PEW!");
                 reloadTimeLeft = reloadWait;
                 GameObject clone = Instantiate(bulletPrefab, aimPosition, rotation);
 
@@ -119,10 +126,12 @@ public class Tower : MonoBehaviour
                 lockedEnemy.TakeDamage(damage);
             }
         }
-        else if (reloadTimeLeft < 0)
-        {
-            aimPivot.rotation = Quaternion.RotateTowards(aimPivot.rotation, Quaternion.identity, aimSpeed * Time.deltaTime);
-        }
+    }
+
+    private void LockOff()
+    {
+        lockedEnemy = null;
+        reloadTimeLeft = Mathf.Max(reloadTimeLeft, resetAimWait);
     }
 
     private void LockOn(Enemy enemy)

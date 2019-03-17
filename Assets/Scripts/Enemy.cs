@@ -39,7 +39,7 @@ public class Enemy : MonoBehaviour
 
 #endif
 
-    private void Awake()
+    private void OnEnable()
     {
         _enemies.Add(this);
         agent = GetComponent<PathAgent>();
@@ -51,7 +51,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
         _enemies.Remove(this);
     }
