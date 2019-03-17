@@ -16,6 +16,9 @@ public class Enemy : MonoBehaviour
     public Vector3 centerOfMass;
     public int health = 5;
 
+    public float destroyOnDeathTime = 0.75f;
+    public Animator anim;
+
     [Space]
     public Renderer[] renders;
 
@@ -26,6 +29,7 @@ public class Enemy : MonoBehaviour
     public AnimationCurve damagedColorWeight = AnimationCurve.Linear(0, 1, 1, 0);
 
     private float damagedTimeLeft;
+    private static readonly int Death = Animator.StringToHash("Death");
 
 #if UNITY_EDITOR
 
@@ -74,6 +78,14 @@ public class Enemy : MonoBehaviour
     {
         health -= damage;
         damagedTimeLeft = damagedTime;
+
+        if (health <= 0)
+        {
+            anim.SetInteger(Death, UnityEngine.Random.Range(1, 3));
+            _enemies.Remove(this);
+            Destroy(gameObject, destroyOnDeathTime);
+            SendMessage("OnEnemyDeath");
+        }
     }
 
     private void SetRendersColor(Color color)

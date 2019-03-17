@@ -27,6 +27,12 @@ public class PathAgent : MonoBehaviour
         StartCoroutine(FollowPath(path.path));
     }
 
+    private void OnEnemyDeath()
+    {
+        enabled = false;
+        StopAllCoroutines();
+    }
+
     private IEnumerator FollowPath(Vector3[] path)
     {
         if (path is null)

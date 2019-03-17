@@ -62,6 +62,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   centerOfMass: {x: 0, y: 0.7, z: 0}
   health: 5
+  destroyOnDeathTime: 0.75
+  anim: {fileID: 2865423449857979094}
   renders:
   - {fileID: 3089648905513043278}
   - {fileID: 4723307056248554966}
