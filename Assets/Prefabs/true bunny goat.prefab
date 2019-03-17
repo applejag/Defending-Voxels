@@ -114,6 +114,36 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   centerOfMass: {x: 0, y: 0.58, z: 0}
   health: 5
+  renders:
+  - {fileID: 476488805499280725}
+  - {fileID: 242449762199941926}
+  damagedTime: 0.5
+  defaultColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
+  damagedColor: {r: 1, g: 0, b: 0, a: 1}
+  damagedColorWeight:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: -0.1886791
+      outSlope: -0.1886791
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.2
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -1.6037738
+      outSlope: -1.6037738
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.07499999
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1001 &242449762201971526
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -177,6 +207,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 242449762201971526}
   m_PrefabAsset: {fileID: 0}
+--- !u!23 &242449762199941926 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 2300000, guid: fe706212e71e2bf44a3886955e4203f0,
+    type: 3}
+  m_PrefabInstance: {fileID: 242449762201971526}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &476488805497374005
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -237,6 +273,12 @@ PrefabInstance:
 --- !u!4 &476488805496987575 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400002, guid: 5d9f4829b9a14e04ea0bbeacfe8b8f7e,
+    type: 3}
+  m_PrefabInstance: {fileID: 476488805497374005}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &476488805499280725 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 2300000, guid: 5d9f4829b9a14e04ea0bbeacfe8b8f7e,
     type: 3}
   m_PrefabInstance: {fileID: 476488805497374005}
   m_PrefabAsset: {fileID: 0}

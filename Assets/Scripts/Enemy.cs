@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [RequireComponent(typeof(PathAgent))]
@@ -14,6 +15,17 @@ public class Enemy : MonoBehaviour
 
     public Vector3 centerOfMass;
     public int health = 5;
+
+    [Space]
+    public Renderer[] renders;
+
+    [Space]
+    public float damagedTime = 0.5f;
+    public Color defaultColor = Color.white;
+    public Color damagedColor = Color.red;
+    public AnimationCurve damagedColorWeight = AnimationCurve.Linear(0, 1, 1, 0);
+
+    private float damagedTimeLeft;
 
 #if UNITY_EDITOR
 
@@ -44,9 +56,38 @@ public class Enemy : MonoBehaviour
         _enemies.Remove(this);
     }
 
+    private void Update()
+    {
+        if (damagedTimeLeft > 0)
+        {
+            float t = 1 - damagedTimeLeft / damagedTime;
+
+            SetRendersColor(t < 1
+                ? Color.Lerp(defaultColor, damagedColor, damagedColorWeight.Evaluate(t))
+                : Color.Lerp(defaultColor, damagedColor, damagedColorWeight.Evaluate(1)));
+
+            damagedTimeLeft -= Time.deltaTime;
+        }
+    }
+
     public void TakeDamage(int damage)
     {
         health -= damage;
-        print($"{name}: Ouch!");
+        damagedTimeLeft = damagedTime;
     }
+
+    private void SetRendersColor(Color color)
+    {
+        if (renders.Length == 0) return;
+
+        Material material = renders.First().material;
+
+        foreach (Renderer render in renders.Skip(1))
+        {
+            render.sharedMaterial = material;
+        }
+
+        material.color = color;
+    }
+
 }
