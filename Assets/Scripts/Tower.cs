@@ -9,6 +9,7 @@ public class Tower : MonoBehaviour
     public int damage = 1;
 
     public float aimWait = 0.5f;
+    public float resetAimWait = 1f;
     public float reloadWait = 3f;
 
     public Transform aimPivot;
@@ -78,6 +79,7 @@ public class Tower : MonoBehaviour
         {
             print("where'd it go");
             lockedEnemy = null;
+            reloadTimeLeft = resetAimWait;
         }
 
         // Get an enemy
@@ -117,7 +119,10 @@ public class Tower : MonoBehaviour
                 lockedEnemy.TakeDamage(damage);
             }
         }
-
+        else if (reloadTimeLeft < 0)
+        {
+            aimPivot.rotation = Quaternion.RotateTowards(aimPivot.rotation, Quaternion.identity, aimSpeed * Time.deltaTime);
+        }
     }
 
     private void LockOn(Enemy enemy)
