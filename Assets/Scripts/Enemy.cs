@@ -15,6 +15,7 @@ public class Enemy : MonoBehaviour
 
     public Vector3 centerOfMass;
     public int health = 5;
+    public int score = 100;
 
     public float destroyOnDeathTime = 0.75f;
     public Animator anim;
@@ -79,8 +80,14 @@ public class Enemy : MonoBehaviour
     {
         Destroy(gameObject);
         var healthCounter = FindObjectOfType<HealthCounter>();
-        healthCounter.health = Mathf.Max(0, healthCounter.health - 1);
-        healthCounter.UpdateHealthText();
+        healthCounter.TakeDamage(1);
+    }
+
+    // Called from SendMessage
+    private void OnEnemyDeath()
+    {
+        var scoreCounter = FindObjectOfType<ScoreCounter>();
+        scoreCounter.AddScore(score);
     }
 
     public void TakeDamage(int damage)

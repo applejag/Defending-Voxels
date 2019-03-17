@@ -8,7 +8,7 @@ public class HealthCounter : MonoBehaviour
     public int health = 500;
     public int digits = 3;
     [TextArea]
-    public string format = "<mspace=1.7em>HEALTH: <color=#FFF3>{0}</color>{1}</mspace>";
+    public string format = "<mspace=1.7em><color=#FFF3>{0}</color>{1}</mspace>";
 
     public TMP_Text text;
 
@@ -19,7 +19,13 @@ public class HealthCounter : MonoBehaviour
             UpdateHealthText();
     }
 
-    public void UpdateHealthText()
+    public void TakeDamage(int damage)
+    {
+        health = Mathf.Clamp(health - damage, 0, (int)Mathf.Pow(10, digits) - 1);
+        UpdateHealthText();
+    }
+
+    private void UpdateHealthText()
     {
         if (health == 0)
         {
