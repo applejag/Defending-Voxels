@@ -12,7 +12,20 @@ public class Enemy : MonoBehaviour
     [NonSerialized]
     public PathAgent agent;
 
+    public Vector3 centerOfMass;
     public int health = 5;
+
+#if UNITY_EDITOR
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Vector3 center = transform.TransformPoint(centerOfMass);
+        Gizmos.DrawRay(center + Vector3.forward * 0.25f, Vector3.back * 0.5f);
+        Gizmos.DrawRay(center + Vector3.left * 0.25f, Vector3.right * 0.5f);
+    }
+
+#endif
 
     private void Awake()
     {

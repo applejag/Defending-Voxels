@@ -47,7 +47,7 @@ public class Tower : MonoBehaviour
 
             if (lockedEnemy)
             {
-                Gizmos.DrawLine(firePosition, lockedEnemy.transform.position);
+                Gizmos.DrawLine(firePosition, lockedEnemy.transform.TransformPoint(lockedEnemy.centerOfMass));
             }
         }
     }
@@ -94,7 +94,7 @@ public class Tower : MonoBehaviour
         if (lockedEnemy)
         {
             // Aiming
-            Vector3 enemyPosition = lockedEnemy.transform.position;
+            Vector3 enemyPosition = lockedEnemy.transform.TransformPoint(lockedEnemy.centerOfMass);
             Vector3 aimPosition = aimPivot.TransformPoint(aimOffset);
             Vector3 delta = enemyPosition - aimPosition;
             Quaternion rotation = Quaternion.LookRotation(delta);
