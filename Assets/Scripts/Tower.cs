@@ -5,13 +5,13 @@ using UnityEngine;
 
 public class Tower : MonoBehaviour
 {
+    [Header("Powerfulness settings")]
     public float range = 10;
     public int damage = 1;
-
-    public float aimWait = 0.5f;
-    public float resetAimWait = 1f;
     public float reloadWait = 3f;
 
+    [Header("Aiming settings")]
+    public float resetAimWait = 1f;
     public Transform aimPivot;
     public Vector3 aimOffset;
     public float aimSpeed = 10;
@@ -19,6 +19,7 @@ public class Tower : MonoBehaviour
     public GameObject bulletPrefab;
 
     private float reloadTimeLeft = 0;
+    private float idleTimeLeft = 0;
 
     private Enemy lockedEnemy;
 
@@ -65,9 +66,16 @@ public class Tower : MonoBehaviour
         if (reloadTimeLeft > 0)
             reloadTimeLeft -= Time.deltaTime;
 
-        if (!lockedEnemy && reloadTimeLeft < 0)
+        if (!lockedEnemy)
         {
-            aimPivot.rotation = Quaternion.RotateTowards(aimPivot.rotation, Quaternion.identity, aimSpeed * Time.deltaTime);
+            if (idleTimeLeft > 0)
+                idleTimeLeft -= Time.deltaTime;
+
+            if (idleTimeLeft < 0)
+            {
+                aimPivot.rotation =
+                    Quaternion.RotateTowards(aimPivot.rotation, Quaternion.identity, aimSpeed * Time.deltaTime);
+            }
         }
 
         if (Enemy.Enemies.Count == 0)
@@ -84,23 +92,29 @@ public class Tower : MonoBehaviour
         var towerPos2 = new Vector2(pos.x, pos.z);
 
         // Enemy out of range. Get a new one
-        if (lockedEnemy && !IsEnemyInRange(lockedEnemy, in towerPos2) ||
-            lockedEnemy && !lockedEnemy.gameObject.activeSelf)
-        {
-            print("where'd it go");
-            LockOff();
-        }
+        //if (lockedEnemy && !IsEnemyInRange(lockedEnemy, in towerPos2) ||
+        //    lockedEnemy && !lockedEnemy.gameObject.activeSelf)
+        //{
+        //    LockOff();
+        //}
 
         // Get an enemy
-        if (!lockedEnemy)
-        {
+        //if (!lockedEnemy)
+        //{
             Enemy enemyInRange = FindFirstEnemyInRange(in towerPos2);
 
             if (enemyInRange)
             {
-                LockOn(enemyInRange);
+                if (enemyInRange != lockedEnemy)
+                {
+                    LockOn(enemyInRange);
+                }
             }
-        }
+            else
+            {
+                LockOff();
+            }
+        //}
 
         if (lockedEnemy)
         {
@@ -131,19 +145,19 @@ public class Tower : MonoBehaviour
     private void LockOff()
     {
         lockedEnemy = null;
-        reloadTimeLeft = Mathf.Max(reloadTimeLeft, resetAimWait);
+        idleTimeLeft = resetAimWait;
     }
 
     private void LockOn(Enemy enemy)
     {
         lockedEnemy = enemy;
-        reloadTimeLeft = Mathf.Max(reloadTimeLeft, aimWait);
+        //reloadTimeLeft = Mathf.Max(reloadTimeLeft, aimWait);
     }
 
     private Enemy FindFirstEnemyInRange(in Vector2 towerPos2)
     {
         Enemy firstOrDefault = EnemiesInRange(towerPos2)
-            .OrderBy(o => o.agent.progress)
+            .OrderByDescending(o => o.agent.progress)
             .FirstOrDefault();
 
         return firstOrDefault;
@@ -160,7 +174,8 @@ public class Tower : MonoBehaviour
     {
         foreach (Enemy enemy in Enemy.Enemies)
         {
-            if (IsEnemyInRange(enemy, in towerPos2))
+            if (enemy.gameObject.activeSelf &&
+                IsEnemyInRange(enemy, in towerPos2))
                 yield return enemy;
         }
     }

@@ -125,12 +125,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   range: 3.5
   damage: 1
-  aimWait: 0.5
+  reloadWait: 0.5
   resetAimWait: 1
-  reloadWait: 2.5
   aimPivot: {fileID: 5233051134500659410}
   aimOffset: {x: 0, y: 0, z: 0}
-  aimSpeed: 400
+  aimSpeed: 560
   aimThreshold: 5
   bulletPrefab: {fileID: 1971407252473468198, guid: c2f5e26300fac1e40a71dd82d205250d,
     type: 3}
