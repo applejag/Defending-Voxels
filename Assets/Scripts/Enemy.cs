@@ -74,6 +74,15 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    // Called from SendMessage
+    private void OnFinishedPath()
+    {
+        Destroy(gameObject);
+        var healthCounter = FindObjectOfType<HealthCounter>();
+        healthCounter.health = Mathf.Max(0, healthCounter.health - 1);
+        healthCounter.UpdateHealthText();
+    }
+
     public void TakeDamage(int damage)
     {
         health -= damage;

@@ -72,5 +72,6 @@ public class PathAgent : MonoBehaviour
         }
 
         progress = 1;
+        SendMessage("OnFinishedPath");
     }
 }
