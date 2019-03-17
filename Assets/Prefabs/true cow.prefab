@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4305759728420939205}
   - component: {fileID: 723546950410258942}
+  - component: {fileID: 3211959620549625202}
   m_Layer: 0
   m_Name: true cow
   m_TagString: Untagged
@@ -47,6 +48,19 @@ MonoBehaviour:
   speed: 1.4
   turnWait: 0.24
   anim: {fileID: 2865423449857979094}
+--- !u!114 &3211959620549625202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3164135275283022953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31809e241ec1f2f4daf2dad0a6a2b1fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 5
 --- !u!1 &5710169291642243339
 GameObject:
   m_ObjectHideFlags: 0
@@ -109,14 +123,6 @@ PrefabInstance:
     - target: {fileID: 100002, guid: 4292bb639d9437046b7dff15e0917e65, type: 3}
       propertyPath: m_Name
       value: walk 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 100002, guid: 4292bb639d9437046b7dff15e0917e65, type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 100000, guid: 4292bb639d9437046b7dff15e0917e65, type: 3}
-      propertyPath: m_Layer
-      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 4292bb639d9437046b7dff15e0917e65, type: 3}
       propertyPath: m_LocalPosition.x
