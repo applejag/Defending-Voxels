@@ -79,15 +79,13 @@ public class Enemy : MonoBehaviour
     private void OnFinishedPath()
     {
         Destroy(gameObject);
-        var healthCounter = FindObjectOfType<HealthCounter>();
-        healthCounter.TakeDamage(1);
+        GameGlobals.HealthCounter.ChangeValue(-1);
     }
 
     // Called from SendMessage
     private void OnEnemyDeath()
     {
-        var scoreCounter = FindObjectOfType<ScoreCounter>();
-        scoreCounter.AddScore(score);
+        GameGlobals.ScoreCounter.ChangeValue(score);
     }
 
     public void TakeDamage(int damage)

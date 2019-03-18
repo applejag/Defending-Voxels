@@ -1,12 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using System.Globalization;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.Serialization;
 
-public class ScoreCounter : MonoBehaviour
+public class GenericValueCounter : MonoBehaviour
 {
-    public int score;
+    [FormerlySerializedAs("score")]
+    public int value;
     public int digits = 3;
     [TextArea]
     public string format = "<mspace=1.7em><color=#FFF3>{0}</color>{1}</mspace>";
@@ -15,29 +17,34 @@ public class ScoreCounter : MonoBehaviour
 
     public TMP_Text text;
 
+    [Space]
+    [FormerlySerializedAs("scoreChanged")]
+    public ValueChangedEvent valueChanged;
+
 #if UNITY_EDITOR
     
     private void OnValidate()
     {
-        score = Mathf.Clamp(score, 0, (int)Mathf.Pow(10, digits)-1);
+        value = Mathf.Clamp(value, 0, (int)Mathf.Pow(10, digits)-1);
         if (text)
-            UpdateScoreText();
+            UpdateValueText();
     }
 
 #endif
 
-    public void AddScore(int add)
+    public void ChangeValue(int delta)
     {
-        score = Mathf.Clamp(score + add, 0, (int) Mathf.Pow(10, digits) - 1);
-        UpdateScoreText();
+        value = Mathf.Clamp(value + delta, 0, (int)Mathf.Pow(10, digits) - 1);
+        valueChanged.Invoke(value);
+        UpdateValueText();
     }
 
-    public void UpdateScoreText()
+    public void UpdateValueText()
     {
         string digitsWithSeparators =
             ((int) Mathf.Pow(10, digits)).ToString("#,###", CultureInfo.InvariantCulture).Substring(1).Trim(',');
 
-        if (score == 0)
+        if (value == 0)
         {
             text.text = string.Format(format, 
                 digitsWithSeparators.Replace(",", separator),
@@ -45,7 +52,7 @@ public class ScoreCounter : MonoBehaviour
         }
         else
         {
-            string valueWithSeparators = score.ToString("#,###", CultureInfo.InvariantCulture);
+            string valueWithSeparators = value.ToString("#,###", CultureInfo.InvariantCulture);
             string digitsSubStringed =
                 digitsWithSeparators.Substring(0, digitsWithSeparators.Length - valueWithSeparators.Length);
 
@@ -53,5 +60,11 @@ public class ScoreCounter : MonoBehaviour
                 digitsSubStringed.Replace(",", separator),
                 valueWithSeparators.Replace(",", separator));
         }
+    }
+
+    [Serializable]
+    public class ValueChangedEvent : UnityEvent<int>
+    {
+
     }
 }
